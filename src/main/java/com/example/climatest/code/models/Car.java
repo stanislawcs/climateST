@@ -20,7 +20,7 @@ public class Car {
     @Column(name = "number")
     private String number;
 
-    @OneToMany
+    @OneToMany(mappedBy = "car")
     @JsonManagedReference
     private List<Request> requests;
 

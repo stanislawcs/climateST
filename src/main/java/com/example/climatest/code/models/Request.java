@@ -14,7 +14,7 @@ public class Request {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "employee", referencedColumnName = "name")
+    @JoinColumn(name = "employee", referencedColumnName = "email")
     @JsonBackReference
     private Employee employee;
 
@@ -22,4 +22,30 @@ public class Request {
     @JoinColumn(name = "car",referencedColumnName = "number")
     @JsonBackReference
     private Car car;
+
+    public Request() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 }
