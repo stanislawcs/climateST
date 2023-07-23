@@ -19,11 +19,12 @@ public class Request {
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "car",referencedColumnName = "number")
+    @JoinColumn(name = "car", referencedColumnName = "number")
     @JsonBackReference
     private Car car;
 
-    public Request() {}
+    public Request() {
+    }
 
     public int getId() {
         return id;

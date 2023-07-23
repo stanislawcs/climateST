@@ -3,6 +3,7 @@ package com.example.climatest.code.services.impl;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.repositories.EmployeeRepository;
 import com.example.climatest.code.services.EmployeeService;
+import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,26 +23,37 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findAll(){
+    public List<Employee> findAll() {
         return employeeRepository.findAll();
+    }
+
+    @Override
+    public Employee getOne(int id) {
+        Optional<Employee> foundEmployee = employeeRepository.findById(id);
+        return foundEmployee.orElseThrow(EmployeeException::new);
+    }
+
+    @Override
+    public Employee getOneByEmail(String email) {
+        return employeeRepository.findEmployeeByEmail(email);
     }
 
     @Transactional
     @Override
-    public void save(Employee employee){
+    public void save(Employee employee) {
         employeeRepository.save(employee);
     }
 
-    //TODO: orElseThrow(Ex.class)
     @Override
-    public Employee getOne(int id){
-        Optional<Employee> foundEmployee = employeeRepository.findById(id);
-        return foundEmployee.orElse(null);
+    @Transactional
+    public void update(Employee employee, int id) {
+        employee.setId(id);
+        employeeRepository.save(employee);
     }
 
     @Override
-    public Employee getOneByEmail(String email){
-        return employeeRepository.findEmployeeByEmail(email);
+    @Transactional
+    public void delete(int id) {
+        employeeRepository.deleteById(id);
     }
-
 }

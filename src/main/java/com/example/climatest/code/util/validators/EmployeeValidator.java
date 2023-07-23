@@ -1,4 +1,4 @@
-package com.example.climatest.code.util;
+package com.example.climatest.code.util.validators;
 
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.services.EmployeeService;
@@ -27,7 +27,7 @@ public class EmployeeValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Employee employee = (Employee) target;
         if (employeeService.getOneByEmail(employee.getEmail()) != null) {
-            errors.rejectValue("email", HttpStatus.BAD_REQUEST.toString(),"This email is already taken");
+            errors.rejectValue("email", HttpStatus.BAD_REQUEST.toString(), "This email is already taken");
         }
     }
 }

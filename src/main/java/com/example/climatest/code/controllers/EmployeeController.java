@@ -2,10 +2,10 @@ package com.example.climatest.code.controllers;
 
 import com.example.climatest.code.converter.EmployeeConverter;
 import com.example.climatest.code.dto.EmployeeDTO;
-import com.example.climatest.code.exceptions.employee.EmployeeException;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.services.EmployeeService;
-import com.example.climatest.code.util.EmployeeValidator;
+import com.example.climatest.code.util.exceptions.employee.EmployeeException;
+import com.example.climatest.code.util.validators.EmployeeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,23 +44,23 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public EmployeeDTO getOne(@PathVariable("id") int id){
+    public EmployeeDTO getOne(@PathVariable("id") int id) {
         return employeeConverter.convertToDTO(employeeService.getOne(id));
     }
 
     @PostMapping()
     public ResponseEntity<HttpStatus> registration(@RequestBody @Valid EmployeeDTO employeeDTO,
-                                                   BindingResult bindingResult){
+                                                   BindingResult bindingResult) {
 
         Employee employeeToSave = employeeConverter.convertToEmployee(employeeDTO);
 
-        employeeValidator.validate(employeeToSave,bindingResult);
+        employeeValidator.validate(employeeToSave, bindingResult);
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             StringBuilder result = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
 
-            for(FieldError e: errors){
+            for (FieldError e : errors) {
                 result.append(e.getField()).append("-")
                         .append(e.getDefaultMessage()).append(";");
             }
@@ -73,15 +73,34 @@ public class EmployeeController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<HttpStatus> update(@PathVariable("id")int id){
+    public ResponseEntity<HttpStatus> update(@RequestBody @Valid EmployeeDTO employeeDTO,
+                                             BindingResult bindingResult,
+                                             @PathVariable("id") int id) {
+
+        Employee employee = employeeConverter.convertToEmployee(employeeDTO);
+
+        employeeValidator.validate(employee, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            StringBuilder result = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+
+            for (FieldError e : errors) {
+                result.append(e.getField()).append("-")
+                        .append(e.getDefaultMessage()).append(";");
+            }
+
+            throw new EmployeeException(result.toString());
+        }
+
+        employeeService.update(employee, id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id")int id){
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") int id) {
+        employeeService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }
-
-

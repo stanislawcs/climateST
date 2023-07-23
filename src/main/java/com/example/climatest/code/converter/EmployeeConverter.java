@@ -2,10 +2,8 @@ package com.example.climatest.code.converter;
 
 import com.example.climatest.code.dto.EmployeeDTO;
 import com.example.climatest.code.models.Employee;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Component;
 
 @Component

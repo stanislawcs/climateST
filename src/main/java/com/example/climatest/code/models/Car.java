@@ -24,7 +24,8 @@ public class Car {
     @JsonManagedReference
     private List<Request> requests;
 
-    public Car(){}
+    public Car() {
+    }
 
     public int getId() {
         return id;

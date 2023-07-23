@@ -6,7 +6,14 @@ import java.util.List;
 
 public interface EmployeeService {
     List<Employee> findAll();
+
     void save(Employee employee);
+
     Employee getOne(int id);
+
     Employee getOneByEmail(String email);
+
+    void update(Employee employee, int id);
+
+    void delete(int id);
 }
