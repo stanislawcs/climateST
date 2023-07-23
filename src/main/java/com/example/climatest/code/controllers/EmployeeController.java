@@ -1,52 +1,87 @@
 package com.example.climatest.code.controllers;
 
+import com.example.climatest.code.converter.EmployeeConverter;
 import com.example.climatest.code.dto.EmployeeDTO;
-import com.example.climatest.code.dto.EmployeeResponse;
+import com.example.climatest.code.exceptions.employee.EmployeeException;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.services.EmployeeService;
-import org.modelmapper.ModelMapper;
+import com.example.climatest.code.util.EmployeeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    private final ModelMapper modelMapper;
+    private final EmployeeConverter employeeConverter;
     private final EmployeeService employeeService;
+    private final EmployeeValidator employeeValidator;
 
     @Autowired
-    public EmployeeController(ModelMapper modelMapper,
-                              EmployeeService employeeService) {
-        this.modelMapper = modelMapper;
+    public EmployeeController(
+
+            EmployeeConverter employeeConverter,
+            EmployeeService employeeService,
+            EmployeeValidator employeeValidator) {
+
+        this.employeeConverter = employeeConverter;
         this.employeeService = employeeService;
+        this.employeeValidator = employeeValidator;
     }
 
     @GetMapping()
-    public EmployeeResponse getAll() {
-        return new EmployeeResponse(employeeService.findAll().stream()
-                .map(Employee::getName).collect(Collectors.toList()));
+    public List<EmployeeDTO> getAll() {
+        return employeeService.findAll().stream()
+                .map(employeeConverter::convertToDTO).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public EmployeeDTO getOne(@PathVariable("id") int id){
+        return employeeConverter.convertToDTO(employeeService.getOne(id));
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> registration(@RequestBody EmployeeDTO employeeDTO) {
-        employeeService.save(convertToEmployee(employeeDTO));
+    public ResponseEntity<HttpStatus> registration(@RequestBody @Valid EmployeeDTO employeeDTO,
+                                                   BindingResult bindingResult){
+
+        Employee employeeToSave = employeeConverter.convertToEmployee(employeeDTO);
+
+        employeeValidator.validate(employeeToSave,bindingResult);
+
+        if(bindingResult.hasErrors()){
+            StringBuilder result = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+
+            for(FieldError e: errors){
+                result.append(e.getField()).append("-")
+                        .append(e.getDefaultMessage()).append(";");
+            }
+
+            throw new EmployeeException(result.toString());
+        }
+
+        employeeService.save(employeeToSave);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<HttpStatus> update(@PathVariable("id")int id){
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    //TODO: Read about converter, it's had sense??
-    private EmployeeDTO convertToDTO(Employee employee) {
-        return modelMapper.map(employee, EmployeeDTO.class);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id")int id){
+        return ResponseEntity.ok(HttpStatus.OK);
     }
-
-    private Employee convertToEmployee(EmployeeDTO employeeDTO) {
-        return modelMapper.map(employeeDTO, Employee.class);
-    }
-
 
 }
+
 
