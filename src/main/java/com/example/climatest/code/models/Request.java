@@ -1,11 +1,18 @@
 package com.example.climatest.code.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "request")
+@NoArgsConstructor
 public class Request {
 
     @Id
@@ -23,30 +30,9 @@ public class Request {
     @JsonBackReference
     private Car car;
 
-    public Request() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
+    public Request(Employee employee,Car car){
         this.employee = employee;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
         this.car = car;
     }
 }
+

@@ -72,6 +72,7 @@ public class EmployeeController {
                                              @PathVariable("id") int id) {
 
         Employee employee = employeeConverter.convertToEmployee(employeeDTO);
+
         employeeValidator.validate(employee, bindingResult);
 
         if (bindingResult.hasErrors()) {
