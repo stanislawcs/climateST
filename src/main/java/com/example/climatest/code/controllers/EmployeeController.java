@@ -4,13 +4,13 @@ import com.example.climatest.code.converter.EmployeeConverter;
 import com.example.climatest.code.dto.EmployeeDTO;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.services.EmployeeService;
+import com.example.climatest.code.util.errors.ErrorsUtil;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import com.example.climatest.code.util.validators.EmployeeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -57,15 +57,9 @@ public class EmployeeController {
         employeeValidator.validate(employeeToSave, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            StringBuilder result = new StringBuilder();
-            List<FieldError> errors = bindingResult.getFieldErrors();
 
-            for (FieldError e : errors) {
-                result.append(e.getField()).append("-")
-                        .append(e.getDefaultMessage()).append(";");
-            }
-
-            throw new EmployeeException(result.toString());
+            String result = ErrorsUtil.getErrorsToClient(bindingResult);
+            throw new EmployeeException(result);
         }
 
         employeeService.save(employeeToSave);
@@ -78,19 +72,12 @@ public class EmployeeController {
                                              @PathVariable("id") int id) {
 
         Employee employee = employeeConverter.convertToEmployee(employeeDTO);
-
         employeeValidator.validate(employee, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            StringBuilder result = new StringBuilder();
-            List<FieldError> errors = bindingResult.getFieldErrors();
 
-            for (FieldError e : errors) {
-                result.append(e.getField()).append("-")
-                        .append(e.getDefaultMessage()).append(";");
-            }
-
-            throw new EmployeeException(result.toString());
+            String result = ErrorsUtil.getErrorsToClient(bindingResult);
+            throw new EmployeeException(result);
         }
 
         employeeService.update(employee, id);
