@@ -6,13 +6,13 @@ import com.example.climatest.code.services.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/request")
+@RequestMapping("/requests")
 public class RequestController {
 
     private final RequestService requestService;
@@ -24,6 +24,13 @@ public class RequestController {
         this.requestService = requestService;
         this.requestConverter = requestConverter;
     }
+
+    @GetMapping()
+    public List<RequestDTO> getAll(){
+        return requestService.getAll().stream()
+                .map(requestConverter::convertToDTO).collect(Collectors.toList());
+    }
+
 
     @PostMapping()
     public ResponseEntity<HttpStatus> create(@RequestBody RequestDTO requestDTO){

@@ -3,7 +3,6 @@ package com.example.climatest.code.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -30,9 +29,5 @@ public class Request {
     @JsonBackReference
     private Car car;
 
-    public Request(Employee employee,Car car){
-        this.employee = employee;
-        this.car = car;
-    }
 }
 
