@@ -2,21 +2,17 @@ package com.example.climatest.code.util.validators;
 
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.services.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
+@RequiredArgsConstructor
 public class EmployeeValidator implements Validator {
 
     private final EmployeeService employeeService;
-
-    @Autowired
-    public EmployeeValidator(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     @Override
     public boolean supports(Class<?> clazz) {

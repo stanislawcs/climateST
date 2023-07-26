@@ -7,7 +7,7 @@ import com.example.climatest.code.services.EmployeeService;
 import com.example.climatest.code.util.errors.ErrorsUtil;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import com.example.climatest.code.util.validators.EmployeeValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,24 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeConverter employeeConverter;
     private final EmployeeService employeeService;
     private final EmployeeValidator employeeValidator;
-
-    @Autowired
-    public EmployeeController(
-
-            EmployeeConverter employeeConverter,
-            EmployeeService employeeService,
-            EmployeeValidator employeeValidator) {
-
-        this.employeeConverter = employeeConverter;
-        this.employeeService = employeeService;
-        this.employeeValidator = employeeValidator;
-    }
 
     @GetMapping()
     public List<EmployeeDTO> getAll() {
@@ -53,11 +42,9 @@ public class EmployeeController {
                                                    BindingResult bindingResult) {
 
         Employee employeeToSave = employeeConverter.convertToEmployee(employeeDTO);
-
         employeeValidator.validate(employeeToSave, bindingResult);
 
         if (bindingResult.hasErrors()) {
-
             String result = ErrorsUtil.getErrorsToClient(bindingResult);
             throw new EmployeeException(result);
         }
@@ -72,11 +59,9 @@ public class EmployeeController {
                                              @PathVariable("id") int id) {
 
         Employee employee = employeeConverter.convertToEmployee(employeeDTO);
-
         employeeValidator.validate(employee, bindingResult);
 
         if (bindingResult.hasErrors()) {
-
             String result = ErrorsUtil.getErrorsToClient(bindingResult);
             throw new EmployeeException(result);
         }

@@ -1,6 +1,7 @@
 package com.example.climatest.code.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "cars")
 @NoArgsConstructor
+@AllArgsConstructor
 public class Car implements Serializable {
 
     @Id
