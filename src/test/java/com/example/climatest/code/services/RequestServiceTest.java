@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class RequestServiceTest {
@@ -56,8 +57,8 @@ public class RequestServiceTest {
     @Test
     public void save_saveOneRequest() {
         Request request = new Request(1, employee, car);
-        Mockito.when(carService.getOneByNumber(request.getCar().getNumber())).thenReturn(car);
-        Mockito.when(employeeService.getOneByEmail(request.getEmployee().getEmail())).thenReturn(employee);
+        Mockito.when(carService.getOneByNumber(request.getCar().getNumber())).thenReturn(Optional.of(car));
+        Mockito.when(employeeService.getOneByEmail(request.getEmployee().getEmail())).thenReturn(Optional.of(employee));
 
         requestService.save(request);
         Mockito.verify(requestRepository).save(request);

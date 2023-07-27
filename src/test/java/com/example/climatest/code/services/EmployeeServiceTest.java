@@ -37,21 +37,15 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getOneByEmail_positiveWay_returnEmployee() {
+    public void getOneByEmail_returnEmployee() {
         String email = "shukans588@gmail.com";
         Employee employee = new Employee(1, "Stas", email, Collections.emptyList());
         Mockito.when(employeeRepository.findEmployeeByEmail(email)).thenReturn(Optional.of(employee));
 
-        Employee empl = employeeService.getOneByEmail(email);
+        Employee empl = employeeService.getOneByEmail(email).get();
         Assertions.assertEquals(employee, empl);
     }
 
-    @Test
-    public void getOneByEmail_negativeWay_throwException() {
-        String email = "shukans589@gmail.com";
-        Mockito.when(employeeRepository.findEmployeeByEmail(email)).thenReturn(Optional.empty());
-        Assertions.assertThrows(EmployeeException.class, () -> employeeService.getOneByEmail(email));
-    }
 
     @Test
     public void getOne_positiveWay_returnEmployee() {

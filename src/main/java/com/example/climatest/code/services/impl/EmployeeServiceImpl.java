@@ -26,12 +26,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getOne(int id) {
         Optional<Employee> foundEmployee = employeeRepository.findById(id);
-        return foundEmployee.orElseThrow(EmployeeException::new);
+        return foundEmployee.orElseThrow(()->new EmployeeException("Employee not found"));
     }
 
     @Override
-    public Employee getOneByEmail(String email) {
-        return employeeRepository.findEmployeeByEmail(email).orElseThrow(EmployeeException::new);
+    public Optional<Employee> getOneByEmail(String email) {
+        return employeeRepository.findEmployeeByEmail(email);
     }
 
     @Override

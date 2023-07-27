@@ -22,7 +22,7 @@ public class EmployeeValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Employee employee = (Employee) target;
-        if (employeeService.getOneByEmail(employee.getEmail()) != null) {
+        if (employeeService.getOneByEmail(employee.getEmail()).isPresent()) {
             errors.rejectValue("email", HttpStatus.BAD_REQUEST.toString(), "This email is already taken");
         }
     }

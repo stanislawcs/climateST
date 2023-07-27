@@ -3,7 +3,6 @@ package com.example.climatest.code.services;
 import com.example.climatest.code.models.Car;
 import com.example.climatest.code.repositories.CarRepository;
 import com.example.climatest.code.services.impl.CarServiceImpl;
-import com.example.climatest.code.util.exceptions.car.CarException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,15 +36,7 @@ public class CarServiceTest {
         Car car = new Car(1, "Hyundai", number, Collections.emptyList());
         Mockito.when(carRepository.findCarByNumber(number)).thenReturn(Optional.of(car));
 
-        Car expectedCar = carService.getOneByNumber(number);
-
+        Car expectedCar = carService.getOneByNumber(number).get();
         Assertions.assertEquals(expectedCar, car);
-    }
-
-    @Test
-    public void getOneByNumber_negativeWay_throwEx() {
-        Mockito.when(carRepository.findCarByNumber(number)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(CarException.class, () -> carService.getOneByNumber(number));
     }
 }

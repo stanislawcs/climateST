@@ -2,7 +2,9 @@ package com.example.climatest.code.services;
 
 import com.example.climatest.code.models.Car;
 
+import java.util.Optional;
+
 public interface CarService {
 
-    Car getOneByNumber(String number);
+    Optional<Car> getOneByNumber(String number);
 }
