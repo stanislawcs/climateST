@@ -1,4 +1,4 @@
-package com.example.climatest.code.util.exceptions.employee;
+package com.example.climatest.code.util.exceptions.car;
 
 import com.example.climatest.code.util.errors.ExceptionStatusCode;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class EmployeeErrorResponse {
+public class CarErrorResponse {
+
     private String message;
     private LocalDateTime date;
     private int code;
+
 }
