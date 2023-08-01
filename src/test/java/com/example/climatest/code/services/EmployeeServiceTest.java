@@ -27,8 +27,8 @@ public class EmployeeServiceTest {
 
     @Test
     public void getAll_getAllEmployees() {
-        Employee employee1 = new Employee(1, "Stas", "shukans588@gmail.com", Collections.emptyList());
-        Employee employee2 = new Employee(2, "Mark", "shukans538@gmail.com", Collections.emptyList());
+        Employee employee1 = new Employee( "shukans588@gmail.com", Collections.emptyList());
+        Employee employee2 = new Employee("shukans538@gmail.com", Collections.emptyList());
         Mockito.when(employeeRepository.findAll()).thenReturn(List.of(employee1, employee2));
 
         List<Employee> employees = employeeService.findAll();
@@ -39,7 +39,7 @@ public class EmployeeServiceTest {
     @Test
     public void getOneByEmail_returnEmployee() {
         String email = "shukans588@gmail.com";
-        Employee employee = new Employee(1, "Stas", email, Collections.emptyList());
+        Employee employee = new Employee(email, Collections.emptyList());
         Mockito.when(employeeRepository.findEmployeeByEmail(email)).thenReturn(Optional.of(employee));
 
         Employee empl = employeeService.getOneByEmail(email).get();
@@ -50,7 +50,7 @@ public class EmployeeServiceTest {
     @Test
     public void getOne_positiveWay_returnEmployee() {
         int id = 1;
-        Employee employee = new Employee(1, "Stas", "shukans588@gmail.com", Collections.emptyList());
+        Employee employee = new Employee("shukans588@gmail.com", Collections.emptyList());
         Mockito.when(employeeRepository.findById(id)).thenReturn(Optional.of(employee));
 
         Employee empl = employeeService.getOne(id);
@@ -66,15 +66,15 @@ public class EmployeeServiceTest {
 
     @Test
     public void save_saveEmployee(){
-        Employee employee = new Employee(1,"Stas","shukans588@gmail.com", Collections.emptyList());
+        Employee employee = new Employee("shukans588@gmail.com", Collections.emptyList());
         employeeService.save(employee);
         Mockito.verify(employeeRepository).save(employee);
     }
 
     @Test
     public void update_updateEmployee(){
-        Employee employee1 = new Employee(1,"Stas","shukans588@gmail.com", Collections.emptyList());
-        Employee employee2 = new Employee(2, "Mark", "mario@gmail.com", Collections.emptyList());
+        Employee employee1 = new Employee("shukans588@gmail.com", Collections.emptyList());
+        Employee employee2 = new Employee("mario@gmail.com", Collections.emptyList());
         employeeService.update(employee2,employee1.getId());
 
         Mockito.verify(employeeRepository).save(employee2);
@@ -82,7 +82,7 @@ public class EmployeeServiceTest {
 
     @Test
     public void delete_removeEmployee(){
-        Employee employee = new Employee(1,"Stas","shukans588@gmail.com", Collections.emptyList());
+        Employee employee = new Employee("shukans588@gmail.com", Collections.emptyList());
         employeeService.delete(employee.getId());
 
         Mockito.verify(employeeRepository).deleteById(employee.getId());

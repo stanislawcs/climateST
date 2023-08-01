@@ -38,7 +38,7 @@ public class RequestServiceTest {
 
     @BeforeEach
     void createEmployeeAndCar() {
-        employee = new Employee(1, "name", "email@gmail.com", Collections.emptyList());
+        employee = new Employee( "email@gmail.com", Collections.emptyList());
         car = new Car(1, "mark", "number", Collections.emptyList());
     }
 

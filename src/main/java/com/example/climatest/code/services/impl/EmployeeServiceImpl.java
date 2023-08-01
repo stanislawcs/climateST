@@ -1,6 +1,7 @@
 package com.example.climatest.code.services.impl;
 
 import com.example.climatest.code.models.Employee;
+import com.example.climatest.code.models.User;
 import com.example.climatest.code.repositories.EmployeeRepository;
 import com.example.climatest.code.services.EmployeeService;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void save(Employee employee) {
         logger.info("POST: save one employee");
+        enrichEmployee(employee);
         employeeRepository.save(employee);
     }
 
@@ -60,5 +63,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void delete(int id) {
         logger.info("DELETE: delete one employee");
         employeeRepository.deleteById(id);
+    }
+
+    private void enrichEmployee(Employee employee){
+        employee.setCreatedAt(new Date());
     }
 }

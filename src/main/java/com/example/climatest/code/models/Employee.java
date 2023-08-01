@@ -9,7 +9,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,17 +18,7 @@ import java.util.List;
 @Table(name = "employees")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee implements Serializable {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "name")
-    @NotEmpty(message = "Name should be not empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    private String name;
+public class Employee extends User implements Serializable {
 
     @Column(name = "email")
     @Email(message = "Email should be valid")
@@ -39,4 +28,5 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee")
     @JsonManagedReference
     private List<Request> requests;
+
 }
