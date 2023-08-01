@@ -1,6 +1,7 @@
 package com.example.climatest.code.services;
 
 import com.example.climatest.code.models.Employee;
+import com.example.climatest.code.models.User;
 
 import java.util.List;
 import java.util.Optional;

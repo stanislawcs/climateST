@@ -1,6 +1,5 @@
 package com.example.climatest.code.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,11 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Employee extends User implements Serializable {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @Column(name = "email")
     @Email(message = "Email should be valid")
     @NotEmpty(message = "Email should be not empty")
@@ -35,4 +28,5 @@ public class Employee extends User implements Serializable {
     @OneToMany(mappedBy = "employee")
     @JsonManagedReference
     private List<Request> requests;
+
 }
