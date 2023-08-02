@@ -1,4 +1,4 @@
-package com.example.climatest.code.security.service;
+package com.example.climatest.code.security.services;
 
 import com.example.climatest.code.models.User;
 import com.example.climatest.code.repositories.UserRepository;

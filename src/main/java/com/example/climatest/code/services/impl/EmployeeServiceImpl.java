@@ -2,6 +2,7 @@ package com.example.climatest.code.services.impl;
 
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.models.User;
+import com.example.climatest.code.models.system.roles.UserRoles;
 import com.example.climatest.code.repositories.EmployeeRepository;
 import com.example.climatest.code.services.EmployeeService;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
@@ -66,6 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private void enrichEmployee(Employee employee){
+        employee.setRole(UserRoles.EMPLOYEE);
         employee.setCreatedAt(new Date());
     }
 }

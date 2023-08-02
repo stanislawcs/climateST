@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class CarServiceTest {
+class CarServiceTest {
 
     private String number;
     @Mock
@@ -32,7 +32,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void getOneByNumber_positiveWay_getCar() {
+    void getOneByNumber_positiveWay_getCar() {
         Car car = new Car(1, "Hyundai", number, Collections.emptyList());
         Mockito.when(carRepository.findCarByNumber(number)).thenReturn(Optional.of(car));
 
