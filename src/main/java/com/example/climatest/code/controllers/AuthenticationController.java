@@ -1,6 +1,6 @@
 package com.example.climatest.code.controllers;
 
-import com.example.climatest.code.dto.UserDTO;
+import com.example.climatest.code.dto.AuthDTO;
 import com.example.climatest.code.security.util.JWTUtil;
 import com.example.climatest.code.util.response.jwt.JWTResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,9 @@ public class AuthenticationController {
     private final JWTUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<JWTResponse> login(@RequestBody @Valid UserDTO userDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
-        );
+    public ResponseEntity<JWTResponse> login(@RequestBody @Valid AuthDTO userDTO) {
+        Authentication authentication = authenticationManager.authenticate
+                (new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         JWTResponse jwt = new JWTResponse();

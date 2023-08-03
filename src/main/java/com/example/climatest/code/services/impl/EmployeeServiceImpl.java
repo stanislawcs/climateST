@@ -22,7 +22,7 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final static Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
+    private final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
 
     @Override
     public List<Employee> findAll() {

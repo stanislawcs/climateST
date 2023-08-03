@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -28,5 +31,4 @@ public class Employee extends User implements Serializable {
     @OneToMany(mappedBy = "employee")
     @JsonManagedReference
     private List<Request> requests;
-
 }

@@ -19,7 +19,7 @@ import static com.example.climatest.code.util.errors.ExceptionStatusCode.ILLEGAL
 @RestControllerAdvice
 public class Handler {
 
-    private final static Logger logger = LogManager.getLogger(Handler.class);
+    private final Logger logger = LogManager.getLogger(Handler.class);
 
     @ExceptionHandler
     private ResponseEntity<EmployeeErrorResponse> handleEmployeeException(EmployeeException e) {
@@ -40,6 +40,5 @@ public class Handler {
 
         return new ResponseEntity<>(carErrorResponse, HttpStatus.BAD_REQUEST);
     }
-
 
 }
