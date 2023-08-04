@@ -1,6 +1,6 @@
 package com.example.climatest.code.converter;
 
-import com.example.climatest.code.dto.EmployeeDTO;
+import com.example.climatest.code.dto.employee.EmployeeDTO;
 import com.example.climatest.code.models.Employee;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

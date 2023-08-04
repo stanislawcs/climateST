@@ -1,7 +1,8 @@
 package com.example.climatest.code.controllers;
 
 import com.example.climatest.code.converter.EmployeeConverter;
-import com.example.climatest.code.dto.EmployeeDTO;
+import com.example.climatest.code.dto.employee.EmployeeDTO;
+import com.example.climatest.code.dto.employee.EmployeeUpdateDTO;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.security.details.Details;
 import com.example.climatest.code.security.util.JWTUtil;
@@ -18,8 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,14 +78,14 @@ public class EmployeeController {
                 username, password, jwtUtil.generateToken(username));
 
         employeeToSave.setUsername(username);
-        employeeToSave.setPassword(passwordEncoder.encode(password));
+        employeeToSave.setPassword(password);
 
         employeeService.save(employeeToSave);
         return new ResponseEntity<>(employeeCreateResponse, HttpStatus.CREATED);
     }
 
     @PatchMapping("/edit/{id}")
-    public ResponseEntity<HttpStatus> update(@RequestBody @Valid EmployeeDTO employeeDTO,
+    public ResponseEntity<HttpStatus> update(@RequestBody @Valid EmployeeUpdateDTO employeeDTO,
                                              BindingResult bindingResult,
                                              @PathVariable("id") int id) {
 
@@ -98,6 +97,7 @@ public class EmployeeController {
             throw new EmployeeException(result);
         }
 
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employeeService.update(employee,id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

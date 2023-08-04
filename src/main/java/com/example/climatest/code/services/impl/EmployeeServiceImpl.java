@@ -10,6 +10,7 @@ import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
 
     @Override
@@ -56,14 +57,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public void update(Employee employee, int id) {
-        logger.info("PUT: update one employee");
-
-        employee.setUsername(getOne(id).getUsername());
-        employee.setPassword(getOne(id).getPassword());
+        logger.info("PATCH: update one employee");
         employee.setId(id);
-        employee.setRole(UserRoles.EMPLOYEE);
-        employee.setCreatedAt(getOne(id).getCreatedAt());
-
+        enrichEmployee(employee);
         employeeRepository.save(employee);
     }
 
@@ -78,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getRole() == null) {
             employee.setRole(UserRoles.EMPLOYEE);
         }
-
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employee.setCreatedAt(new Date());
     }
 }

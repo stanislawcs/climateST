@@ -30,6 +30,4 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
-
 }
