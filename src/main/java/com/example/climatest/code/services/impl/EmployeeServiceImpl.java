@@ -1,9 +1,10 @@
 package com.example.climatest.code.services.impl;
 
 import com.example.climatest.code.models.Employee;
-import com.example.climatest.code.models.User;
 import com.example.climatest.code.models.system.roles.UserRoles;
 import com.example.climatest.code.repositories.EmployeeRepository;
+import com.example.climatest.code.repositories.UserRepository;
+import com.example.climatest.code.security.services.DetailsService;
 import com.example.climatest.code.services.EmployeeService;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
     private final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
 
     @Override
@@ -34,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee getOne(int id) {
         logger.info("GET: get one employee by id");
         Optional<Employee> foundEmployee = employeeRepository.findById(id);
-        return foundEmployee.orElseThrow(()->new EmployeeException("Employee not found"));
+        return foundEmployee.orElseThrow(() -> new EmployeeException("Employee not found"));
     }
 
     @Override
@@ -55,7 +57,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void update(Employee employee, int id) {
         logger.info("PUT: update one employee");
+
+        employee.setUsername(getOne(id).getUsername());
+        employee.setPassword(getOne(id).getPassword());
         employee.setId(id);
+        employee.setRole(UserRoles.EMPLOYEE);
+        employee.setCreatedAt(getOne(id).getCreatedAt());
+
         employeeRepository.save(employee);
     }
 
@@ -66,8 +74,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    private void enrichEmployee(Employee employee){
-        employee.setRole(UserRoles.EMPLOYEE);
+    private void enrichEmployee(Employee employee) {
+        if (employee.getRole() == null) {
+            employee.setRole(UserRoles.EMPLOYEE);
+        }
+
         employee.setCreatedAt(new Date());
     }
 }

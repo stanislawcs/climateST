@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +23,7 @@ import java.util.List;
 @Table(name = "employees")
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Employee extends User implements Serializable {
 
     @Column(name = "email")
