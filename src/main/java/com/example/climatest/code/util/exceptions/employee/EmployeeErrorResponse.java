@@ -1,6 +1,5 @@
 package com.example.climatest.code.util.exceptions.employee;
 
-import com.example.climatest.code.util.errors.ExceptionStatusCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

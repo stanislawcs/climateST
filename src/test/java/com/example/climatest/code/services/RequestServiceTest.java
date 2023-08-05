@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class RequestServiceTest {
+class RequestServiceTest {
 
     @InjectMocks
     private RequestServiceImpl requestService;
@@ -38,12 +38,12 @@ public class RequestServiceTest {
 
     @BeforeEach
     void createEmployeeAndCar() {
-        employee = new Employee( "email@gmail.com", Collections.emptyList());
+        employee = new Employee("email@gmail.com", Collections.emptyList());
         car = new Car(1, "mark", "number", Collections.emptyList());
     }
 
     @Test
-    public void getAll_returnAllRequests() {
+    void getAll_returnAllRequests() {
         Request request1 = new Request(1, employee, car);
         Request request2 = new Request(2, employee, car);
 
@@ -55,7 +55,7 @@ public class RequestServiceTest {
     }
 
     @Test
-    public void save_saveOneRequest() {
+    void save_saveOneRequest() {
         Request request = new Request(1, employee, car);
         Mockito.when(carService.getOneByNumber(request.getCar().getNumber())).thenReturn(Optional.of(car));
         Mockito.when(employeeService.getOneByEmail(request.getEmployee().getEmail())).thenReturn(Optional.of(employee));

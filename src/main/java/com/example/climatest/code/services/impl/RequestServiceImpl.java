@@ -23,7 +23,7 @@ public class RequestServiceImpl implements RequestService {
     private final CarService carService;
     private final EmployeeService employeeService;
     private final RequestRepository requestRepository;
-    private final static Logger logger = LogManager.getLogger(RequestServiceImpl.class);
+    private final Logger logger = LogManager.getLogger(RequestServiceImpl.class);
 
 
     @Override

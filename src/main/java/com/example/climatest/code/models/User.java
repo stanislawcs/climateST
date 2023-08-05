@@ -4,6 +4,7 @@ import com.example.climatest.code.models.system.roles.UserRoles;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -24,6 +25,7 @@ public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private int id;
 
     @NotEmpty(message = "Username should be not empty")
@@ -33,7 +35,6 @@ public class User {
 
     @NotEmpty(message = "Password should be not empty")
     @Column(name = "password")
-    @Size(min = 4, max = 20, message = "Password should be between 4 and 20 characters")
     private String password;
 
     @Column(name = "role")

@@ -5,8 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -18,6 +23,7 @@ import java.util.List;
 @Table(name = "employees")
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Employee extends User implements Serializable {
 
     @Column(name = "email")
@@ -28,5 +34,4 @@ public class Employee extends User implements Serializable {
     @OneToMany(mappedBy = "employee")
     @JsonManagedReference
     private List<Request> requests;
-
 }

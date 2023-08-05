@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ErrorsUtil {
 
-    public static String getErrorsToClient(BindingResult bindingResult){
+    public static String getErrorsToClient(BindingResult bindingResult) {
         StringBuilder result = new StringBuilder();
         List<FieldError> errors = bindingResult.getFieldErrors();
 
