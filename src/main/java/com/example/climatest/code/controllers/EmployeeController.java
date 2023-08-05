@@ -97,7 +97,7 @@ public class EmployeeController {
             throw new EmployeeException(result);
         }
 
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employee.setPassword(employee.getPassword());
         employeeService.update(employee,id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

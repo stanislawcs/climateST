@@ -36,7 +36,7 @@ class CarServiceTest {
         Car car = new Car(1, "Hyundai", number, Collections.emptyList());
         Mockito.when(carRepository.findCarByNumber(number)).thenReturn(Optional.of(car));
 
-        Car expectedCar = carService.getOneByNumber(number).get();
+        Car expectedCar = carService.getOneByNumber(number).orElseThrow();
         Assertions.assertEquals(expectedCar, car);
     }
 }

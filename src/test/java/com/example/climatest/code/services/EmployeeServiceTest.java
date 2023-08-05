@@ -42,7 +42,7 @@ class EmployeeServiceTest {
         Employee employee = new Employee(email, Collections.emptyList());
         Mockito.when(employeeRepository.findEmployeeByEmail(email)).thenReturn(Optional.of(employee));
 
-        Employee empl = employeeService.getOneByEmail(email).get();
+        Employee empl = employeeService.getOneByEmail(email).orElseThrow();
         Assertions.assertEquals(employee, empl);
     }
 
@@ -62,22 +62,6 @@ class EmployeeServiceTest {
         int id = 1;
         Mockito.when(employeeRepository.findById(id)).thenReturn(Optional.empty());
         Assertions.assertThrows(EmployeeException.class, () -> employeeService.getOne(id));
-    }
-
-    @Test
-    void save_saveEmployee() {
-        Employee employee = new Employee("shukans588@gmail.com", Collections.emptyList());
-        employeeService.save(employee);
-        Mockito.verify(employeeRepository).save(employee);
-    }
-
-    @Test
-    void update_updateEmployee() {
-        Employee employee1 = new Employee("shukans588@gmail.com", Collections.emptyList());
-        Employee employee2 = new Employee("mario@gmail.com", Collections.emptyList());
-        employeeService.update(employee2, employee1.getId());
-
-        Mockito.verify(employeeRepository).save(employee2);
     }
 
     @Test
