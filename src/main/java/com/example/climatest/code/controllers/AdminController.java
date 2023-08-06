@@ -22,6 +22,7 @@ public class AdminController {
         this.employeeService = employeeService;
     }
 
+    //TODO: add service method
     @PostMapping("/{id}")
     public ResponseEntity<HttpStatus> add(@PathVariable("id") int id){
         Employee employee = employeeService.getOne(id);
