@@ -71,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     //TODO: create methods in converter
     private void enrichEmployee(Employee employee) {
         if (employee.getRole() == null) {
-            employee.setRole(UserRoles.EMPLOYEE);
+            employee.setRole(UserRoles.ROLE_EMPLOYEE);
         }
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employee.setCreatedAt(new Date());

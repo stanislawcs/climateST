@@ -5,6 +5,7 @@ import com.example.climatest.code.security.services.DetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,10 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login/**")
                 .permitAll()
-                .antMatchers("/employees/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST ,"/employees").hasRole("ADMIN")
+                .antMatchers("/employees/**").hasRole("EMPLOYEE")
+                .anyRequest().hasAnyRole("ADMIN","EMPLOYEE","CLIENT","GUARD")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

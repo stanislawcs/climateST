@@ -26,7 +26,7 @@ public class AdminController {
     @PostMapping("/{id}")
     public ResponseEntity<HttpStatus> add(@PathVariable("id") int id){
         Employee employee = employeeService.getOne(id);
-        employee.setRole(UserRoles.ADMIN);
+        employee.setRole(UserRoles.ROLE_ADMIN);
         employeeService.save(employee);
         return ResponseEntity.ok(HttpStatus.OK);
     }
