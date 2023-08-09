@@ -1,9 +1,7 @@
 package com.example.climatest.code.controllers;
 
-import com.example.climatest.code.models.Employee;
-import com.example.climatest.code.models.system.roles.UserRoles;
-import com.example.climatest.code.services.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.climatest.code.services.AdminService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,24 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
-    private final EmployeeService employeeService;
+    private final AdminService adminService;
 
-    @Autowired
-    public AdminController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    //TODO: add service method
     @PostMapping("/{id}")
-    public ResponseEntity<HttpStatus> add(@PathVariable("id") int id){
-        Employee employee = employeeService.getOne(id);
-        employee.setRole(UserRoles.ROLE_ADMIN);
-        employeeService.save(employee);
+    public ResponseEntity<HttpStatus> add(@PathVariable("id") int id) {
+        adminService.save(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
-
 
 }

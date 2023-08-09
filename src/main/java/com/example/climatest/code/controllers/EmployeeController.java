@@ -92,21 +92,16 @@ public class EmployeeController {
                                              @PathVariable("id") int id) {
 
         Employee employee = employeeConverter.convertToEmployee(employeeDTO);
-        //TODO: create employeeService method
-        if(employee.getEmail().equals(employeeService.getOne(id).getEmail())){
-            log.info("This employee doesn't change email");
-        }
-        else{
+        if (!employee.getEmail().equals(employeeService.getOne(id).getEmail())) {
             employeeValidator.validate(employee, bindingResult);
         }
-        //
 
         if (bindingResult.hasErrors()) {
             String result = ErrorsUtil.getErrorsToClient(bindingResult);
             throw new EmployeeException(result);
         }
 
-        employeeService.update(employee,id);
+        employeeService.update(employee, id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
