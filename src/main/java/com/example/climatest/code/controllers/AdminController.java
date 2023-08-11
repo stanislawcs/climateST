@@ -1,6 +1,9 @@
 package com.example.climatest.code.controllers;
 
+import com.example.climatest.code.security.services.DetailsService;
+import com.example.climatest.code.security.util.JWTUtil;
 import com.example.climatest.code.services.AdminService;
+import com.example.climatest.code.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     private final AdminService adminService;
+    private final JWTUtil jwtUtil;
+    private final EmployeeService employeeService;
 
     @PostMapping("/{id}")
-    public ResponseEntity<HttpStatus> add(@PathVariable("id") int id) {
+    public ResponseEntity<String> add(@PathVariable("id") int id) {
         adminService.save(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return new ResponseEntity<>(jwtUtil.generateToken(employeeService.getOne(id).getUsername()),HttpStatus.OK);
     }
 
 }

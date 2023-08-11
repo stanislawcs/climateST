@@ -1,5 +1,6 @@
 package com.example.climatest.code.security.config;
 
+import com.example.climatest.code.models.system.roles.UserRoles;
 import com.example.climatest.code.security.filter.JWTFilter;
 import com.example.climatest.code.security.services.DetailsService;
 import lombok.RequiredArgsConstructor;
@@ -27,18 +28,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().
+        http.csrf().
                 disable()
+                .cors()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+                 and()
                 .authorizeRequests()
-                .antMatchers("/login/**")
-                .permitAll()
+                .antMatchers("/auth/login/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST ,"/employees").hasRole("ADMIN")
-                .antMatchers("/employees/**").hasRole("EMPLOYEE")
-                .anyRequest().hasAnyRole("ADMIN","EMPLOYEE","CLIENT","GUARD")
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .antMatchers("/employees/**").hasRole("EMPLOYEE");
+
+
 
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
