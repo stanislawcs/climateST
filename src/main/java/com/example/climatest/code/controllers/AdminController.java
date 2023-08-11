@@ -1,9 +1,10 @@
 package com.example.climatest.code.controllers;
 
-import com.example.climatest.code.models.Employee;
-import com.example.climatest.code.models.system.roles.UserRoles;
+import com.example.climatest.code.security.services.DetailsService;
+import com.example.climatest.code.security.util.JWTUtil;
+import com.example.climatest.code.services.AdminService;
 import com.example.climatest.code.services.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,23 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
+    private final AdminService adminService;
+    private final JWTUtil jwtUtil;
     private final EmployeeService employeeService;
 
-    @Autowired
-    public AdminController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
     @PostMapping("/{id}")
-    public ResponseEntity<HttpStatus> add(@PathVariable("id") int id){
-        Employee employee = employeeService.getOne(id);
-        employee.setRole(UserRoles.ADMIN);
-        employeeService.save(employee);
-        return ResponseEntity.ok(HttpStatus.OK);
+    public ResponseEntity<String> add(@PathVariable("id") int id) {
+        adminService.save(id);
+        return new ResponseEntity<>(jwtUtil.generateToken(employeeService.getOne(id).getUsername()),HttpStatus.OK);
     }
-
-
 
 }

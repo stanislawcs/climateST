@@ -14,6 +14,7 @@ import com.example.climatest.code.util.generator.UsernameAndPasswordGenerator;
 import com.example.climatest.code.util.response.employee.EmployeeCreateResponse;
 import com.example.climatest.code.util.validators.EmployeeValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employees")
@@ -90,15 +92,16 @@ public class EmployeeController {
                                              @PathVariable("id") int id) {
 
         Employee employee = employeeConverter.convertToEmployee(employeeDTO);
-        employeeValidator.validate(employee, bindingResult);
+        if (!employee.getEmail().equals(employeeService.getOne(id).getEmail())) {
+            employeeValidator.validate(employee, bindingResult);
+        }
 
         if (bindingResult.hasErrors()) {
             String result = ErrorsUtil.getErrorsToClient(bindingResult);
             throw new EmployeeException(result);
         }
 
-        employee.setPassword(employee.getPassword());
-        employeeService.update(employee,id);
+        employeeService.update(employee, id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

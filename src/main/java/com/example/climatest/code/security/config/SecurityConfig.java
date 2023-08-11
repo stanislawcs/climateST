@@ -1,10 +1,12 @@
 package com.example.climatest.code.security.config;
 
+import com.example.climatest.code.models.system.roles.UserRoles;
 import com.example.climatest.code.security.filter.JWTFilter;
 import com.example.climatest.code.security.services.DetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,18 +28,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().
+        http.csrf().
                 disable()
-                .authorizeRequests()
-                .antMatchers("/login/**")
-                .permitAll()
-                .antMatchers("/employees/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .cors()
+                .disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+                 and()
+                .authorizeRequests()
+                .antMatchers("/auth/login/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST ,"/employees").hasRole("ADMIN")
+                .antMatchers("/employees/**").hasRole("EMPLOYEE");
+
+
 
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

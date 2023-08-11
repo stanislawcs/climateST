@@ -3,8 +3,6 @@ package com.example.climatest.code.services.impl;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.models.system.roles.UserRoles;
 import com.example.climatest.code.repositories.EmployeeRepository;
-import com.example.climatest.code.repositories.UserRepository;
-import com.example.climatest.code.security.services.DetailsService;
 import com.example.climatest.code.services.EmployeeService;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import lombok.RequiredArgsConstructor;
@@ -70,9 +68,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.deleteById(id);
     }
 
+    //TODO: create methods in converter
     private void enrichEmployee(Employee employee) {
         if (employee.getRole() == null) {
-            employee.setRole(UserRoles.EMPLOYEE);
+            employee.setRole(UserRoles.ROLE_EMPLOYEE);
         }
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employee.setCreatedAt(new Date());
