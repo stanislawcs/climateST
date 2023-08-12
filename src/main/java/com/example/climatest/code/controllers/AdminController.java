@@ -1,6 +1,5 @@
 package com.example.climatest.code.controllers;
 
-import com.example.climatest.code.security.services.DetailsService;
 import com.example.climatest.code.security.util.JWTUtil;
 import com.example.climatest.code.services.AdminService;
 import com.example.climatest.code.services.EmployeeService;
@@ -24,7 +23,7 @@ public class AdminController {
     @PostMapping("/{id}")
     public ResponseEntity<String> add(@PathVariable("id") int id) {
         adminService.save(id);
-        return new ResponseEntity<>(jwtUtil.generateToken(employeeService.getOne(id).getUsername()),HttpStatus.OK);
+        return new ResponseEntity<>(jwtUtil.generateToken(employeeService.getOne(id).getUsername()), HttpStatus.OK);
     }
 
 }

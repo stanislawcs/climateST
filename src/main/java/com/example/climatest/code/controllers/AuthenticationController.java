@@ -21,13 +21,13 @@ public class AuthenticationController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<JWTResponse> login(@RequestBody AuthDTO userDTO) {
-        UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
 
+        UsernamePasswordAuthenticationToken authInputToken =
+                new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
         authenticationManager.authenticate(authInputToken);
 
         JWTResponse jwt = new JWTResponse();
         jwt.setJwt(jwtUtil.generateToken(userDTO.getUsername()));
-
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 }
