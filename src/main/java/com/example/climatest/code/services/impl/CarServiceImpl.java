@@ -4,23 +4,23 @@ import com.example.climatest.code.models.Car;
 import com.example.climatest.code.repositories.CarRepository;
 import com.example.climatest.code.services.CarService;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
-    private final Logger logger = LogManager.getLogger(CarServiceImpl.class);
+
 
     public Optional<Car> getOneByNumber(String number) {
-        logger.info("GET: get one car by it's number");
+        log.info("GET: get one car by it's number");
         return carRepository.findCarByNumber(number);
     }
 }

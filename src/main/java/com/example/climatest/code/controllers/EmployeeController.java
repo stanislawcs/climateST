@@ -7,19 +7,16 @@ import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.security.details.Details;
 import com.example.climatest.code.security.util.JWTUtil;
 import com.example.climatest.code.services.EmployeeService;
-import com.example.climatest.code.services.UserService;
 import com.example.climatest.code.util.errors.ErrorsUtil;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
 import com.example.climatest.code.util.generator.UsernameAndPasswordGenerator;
 import com.example.climatest.code.util.response.employee.EmployeeCreateResponse;
 import com.example.climatest.code.util.validators.EmployeeValidator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +24,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employees")
@@ -36,9 +33,7 @@ public class EmployeeController {
     private final EmployeeConverter employeeConverter;
     private final EmployeeService employeeService;
     private final EmployeeValidator employeeValidator;
-    private final PasswordEncoder passwordEncoder;
     private final JWTUtil jwtUtil;
-    private final UserService userService;
 
     @GetMapping()
     public List<EmployeeDTO> getAll() {
@@ -55,8 +50,6 @@ public class EmployeeController {
     public String profile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Details userDetails = (Details) authentication.getPrincipal();
-
-
         return userDetails.getUsername();
     }
 

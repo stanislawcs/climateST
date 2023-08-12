@@ -1,6 +1,5 @@
 package com.example.climatest.code.security.config;
 
-import com.example.climatest.code.models.system.roles.UserRoles;
 import com.example.climatest.code.security.filter.JWTFilter;
 import com.example.climatest.code.security.services.DetailsService;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-                 and()
+                and()
                 .authorizeRequests()
                 .antMatchers("/auth/login/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST ,"/employees").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN")
                 .antMatchers("/employees/**").hasRole("EMPLOYEE");
-
-
 
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

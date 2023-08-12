@@ -4,8 +4,7 @@ import com.example.climatest.code.util.exceptions.car.CarErrorResponse;
 import com.example.climatest.code.util.exceptions.car.CarException;
 import com.example.climatest.code.util.exceptions.employee.EmployeeErrorResponse;
 import com.example.climatest.code.util.exceptions.employee.EmployeeException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,15 +15,14 @@ import java.time.LocalDateTime;
 import static com.example.climatest.code.util.errors.ExceptionStatusCode.ILLEGAL_CAR_CREDENTIALS;
 import static com.example.climatest.code.util.errors.ExceptionStatusCode.ILLEGAL_EMPLOYEE_CREDENTIALS;
 
+@Slf4j
 @RestControllerAdvice
 public class Handler {
-
-    private final Logger logger = LogManager.getLogger(Handler.class);
 
     @ExceptionHandler
     private ResponseEntity<EmployeeErrorResponse> handleEmployeeException(EmployeeException e) {
 
-        logger.error("EmployeeException: " + e.getMessage());
+        log.error("EmployeeException: " + e.getMessage());
         EmployeeErrorResponse employeeErrorResponse = new EmployeeErrorResponse(e.getMessage(),
                 LocalDateTime.now(), ILLEGAL_EMPLOYEE_CREDENTIALS.getStatusCode());
 
@@ -34,7 +32,7 @@ public class Handler {
     @ExceptionHandler
     private ResponseEntity<CarErrorResponse> handleCarException(CarException e) {
 
-        logger.error("CarException: " + e.getMessage());
+        log.error("CarException: " + e.getMessage());
         CarErrorResponse carErrorResponse = new CarErrorResponse(e.getMessage(),
                 LocalDateTime.now(), ILLEGAL_CAR_CREDENTIALS.getStatusCode());
 
