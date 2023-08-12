@@ -55,8 +55,6 @@ public class EmployeeController {
     public String profile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Details userDetails = (Details) authentication.getPrincipal();
-
-
         return userDetails.getUsername();
     }
 
@@ -72,6 +70,7 @@ public class EmployeeController {
             throw new EmployeeException(result);
         }
 
+        //TODO: Try to create service method
         String username = UsernameAndPasswordGenerator.generateUsername();
         String password = UsernameAndPasswordGenerator.generatePassword();
 

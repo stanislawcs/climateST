@@ -37,6 +37,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @NotEmpty(message = "Name should be not empty")
+    @Column(name = "name")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    private String name;
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRoles role;
@@ -45,8 +50,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @NotEmpty(message = "Name should be not empty")
-    @Column(name = "name")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
-    private String name;
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
 }
