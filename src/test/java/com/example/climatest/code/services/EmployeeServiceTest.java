@@ -1,5 +1,6 @@
 package com.example.climatest.code.services;
 
+import com.example.climatest.code.models.Client;
 import com.example.climatest.code.models.Employee;
 import com.example.climatest.code.repositories.EmployeeRepository;
 import com.example.climatest.code.services.impl.EmployeeServiceImpl;
@@ -68,7 +69,8 @@ class EmployeeServiceTest {
     void delete_removeEmployee() {
         Employee employee = new Employee("shukans588@gmail.com", Collections.emptyList());
         employeeService.delete(employee.getId());
-
         Mockito.verify(employeeRepository).deleteById(employee.getId());
     }
+
+
 }

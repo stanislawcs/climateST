@@ -32,13 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-                and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/auth/login/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/employees").hasRole("ADMIN")
-                .antMatchers("/employees/**").hasRole("EMPLOYEE");
+                .antMatchers("/employees/**").hasAnyRole("ADMIN","EMPLOYEE");
 
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
