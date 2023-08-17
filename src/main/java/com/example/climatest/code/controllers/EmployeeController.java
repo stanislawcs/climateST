@@ -4,7 +4,6 @@ import com.example.climatest.code.converter.EmployeeConverter;
 import com.example.climatest.code.dto.employee.EmployeeDTO;
 import com.example.climatest.code.dto.employee.EmployeeUpdateDTO;
 import com.example.climatest.code.models.Employee;
-import com.example.climatest.code.security.details.Details;
 import com.example.climatest.code.security.util.JWTUtil;
 import com.example.climatest.code.services.EmployeeService;
 import com.example.climatest.code.util.errors.ErrorsUtil;
@@ -15,8 +14,6 @@ import com.example.climatest.code.util.validators.EmployeeValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,13 +41,6 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public EmployeeDTO getOne(@PathVariable("id") int id) {
         return employeeConverter.convertToDTO(employeeService.getOne(id));
-    }
-
-    @GetMapping("profile")
-    public String profile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Details userDetails = (Details) authentication.getPrincipal();
-        return userDetails.getUsername();
     }
 
     @PostMapping()

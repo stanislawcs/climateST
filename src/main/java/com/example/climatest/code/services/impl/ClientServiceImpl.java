@@ -8,6 +8,7 @@ import com.example.climatest.code.util.exceptions.client.ClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +28,10 @@ public class ClientServiceImpl implements ClientService {
     public Client getOne(int id) {
         Optional<Client> client = clientRepository.findById(id);
         return client.orElseThrow(() -> new ClientException("Client not found"));
+    }
+
+    @Override
+    public List<Client> getAll() {
+        return clientRepository.findAll();
     }
 }
